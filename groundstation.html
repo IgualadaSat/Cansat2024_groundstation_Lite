@@ -1,1 +1,77 @@
-Hello World!! :')
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cansat2024</title>
+
+  <style type="text/css">
+    body {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding: 0;
+      margin: auto;
+      background: #000;
+      overflow: hidden;
+    }
+
+    div {
+      height: 100vh;
+    }
+
+    #graphics {
+      grid-column: span 2;
+      border-right: 1px solid #fff;
+    }
+  </style>
+</head>
+<body>
+
+<div id="graphics"></div>
+<div id="3d"></div>
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://threejs.org/build/three.js"></script>
+
+<script id="d3">
+  var svg = d3.select("#graphics")
+    .append("svg")
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .append("circle")
+    .attr("cx", "50%")
+    .attr("cy", "50%")
+    .attr("r", "50")
+    .attr("fill", "orange");
+</script>
+<script>
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(40, (window.innerWidth/3) / window.innerHeight, 0.1, 1000);
+  var renderer = new THREE.WebGLRenderer();
+
+  renderer.setSize(window.innerWidth / 3, window.innerHeight);
+  document.getElementById("3d").appendChild(renderer.domElement);
+
+  var geometry = new THREE.BoxGeometry();
+  var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+  var cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+
+  camera.position.z = 10;
+
+  var animate = function () {
+    requestAnimationFrame(animate);
+
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+
+    renderer.render(scene, camera);
+  };
+
+  animate();
+
+</script>
+
+</body>
+</html>
